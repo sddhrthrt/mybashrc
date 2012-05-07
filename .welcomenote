@@ -1,0 +1,29 @@
+tput clear
+function set_height {
+height=`stty -a | head -n 1 | cut -d ';' -f 2 | cut -d ' ' -f 3`
+height=$(( $height / 2 ))
+height=$(( $height - 2 ))
+}
+function set_width {
+	cols=`tput cols`
+	blank=$(( $cols - $len ))
+	blank=$(( $blank / 2 ))
+	if [ $blank -lt 0 ] 
+	then
+	blank=0
+	fi
+}
+set_height
+date=`date +"%T, %d-%m-%Y"`
+len=`expr "$date" : '.*'`
+set_width
+tput cup $height $blank
+height=$(( $height + 1 ))
+echo $date
+who=`whoami`
+note=`echo "dont ignore your dreams||dont work too much||say what you think||cultivate friendships||be happy"`
+len=`expr "$note" : '.*'`
+set_width
+tput cup $height $blank
+echo $note
+tput cup 0 0 
